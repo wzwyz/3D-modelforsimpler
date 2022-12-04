@@ -3,11 +3,11 @@
 #define MAXN 260
 using namespace std;
 int jl[100][100][100],jk[100][100],maxr=1,minr=100;
-int equasd(int sdi,int sdj,int sdf,int sdp){
+int equasd(int sdi,double c1,double c2,double c3,int sdf,int sdp){
 	double f[]={0,cos(2*3.14159*sdi/MAXN),0,sin(2*3.14159*sdi/MAXN),0,1,0,-sin(2*3.14159*sdi/MAXN),0,cos(2*3.14159*sdi/MAXN)};
 	double d[]={0,cos(2*3.14159*sdf/MAXN),sin(2*3.14159*sdf/MAXN),0,-sin(2*3.14159*sdf/MAXN),cos(2*3.14159*sdf/MAXN),0,0,0,1};
 	double b[]={0,1,0,0,0,cos(2*3.14159*sdp/MAXN),sin(2*3.14159*sdp/MAXN),0,-sin(2*3.14159*sdp/MAXN),cos(2*3.14159*sdp/MAXN)};
-	double u[]={0,20+10*cos(2*3.14159*sdj/MAXN),10*sin(2*3.14159*sdj/MAXN),0};
+	double u[]={0,c1,c2,c3};
 	double c[3];
     c[1]=u[1]*f[1]+u[2]*f[2]+u[3]*f[3];
     c[2]=u[1]*f[4]+u[2]*f[5]+u[3]*f[6];
@@ -29,16 +29,10 @@ int main(){
 	POINT p;
 	while(1){
 		GetCursorPos(&p);
-		for(int i=1;i<=100;i++){
-		for(int j=1;j<=100;j++){
-			for(int v=1;v<=100;v++){
-				jl[i][j][v]=0;
-			}
-		}
-	}
+		memset(jl,0,sizeof(jl));
 	for(int i=1;i<=MAXN;i++){
 		for(int j=1;j<=MAXN;j++){
-			equasd(i,j,100*p.x/1679,100*p.y/1119);
+			equasd(i,20+10*cos(2*3.14159*j/MAXN),10*sin(2*3.14159*j/MAXN),0,100*p.x/1679,100*p.y/1119);
 		}
 	}
 	for(int i=1;i<=100;i++){
