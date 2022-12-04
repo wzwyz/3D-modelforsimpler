@@ -26,22 +26,21 @@ int equasd(int sdi,int sdj,int sdf,int sdp){
 }
 
 int main(){
-	for(int w=0;w<=100;w=w+10){
-		for(int s=1;s<=100;s++){
+	POINT p;
+	while(1){
+		GetCursorPos(&p);
 		for(int i=1;i<=100;i++){
-			for(int j=1;j<=100;j++){
-				for(int v=1;v<=100;v++){
-					jl[i][j][v]=0;
-				}
+		for(int j=1;j<=100;j++){
+			for(int v=1;v<=100;v++){
+				jl[i][j][v]=0;
 			}
 		}
-		for(int i=1;i<=MAXN;i++){
-			for(int j=1;j<=MAXN;j++){
-			 equasd(i,j,s,w);
-		    }
-		
-	    }
-	
+	}
+	for(int i=1;i<=MAXN;i++){
+		for(int j=1;j<=MAXN;j++){
+			equasd(i,j,100*p.x/1679,100*p.y/1119);
+		}
+	}
 	for(int i=1;i<=100;i++){
 		for(int j=1;j<=100;j++){
 			int g=0;
@@ -54,7 +53,6 @@ int main(){
 			jk[i][j]=g;
 			if(maxr<g&&j<=99&&i<=99)maxr=g;
 			if(minr>g&&g!=0)minr=g;
-
 		}
 	}
 	for(int i=1;i<=100;i++){
@@ -69,10 +67,9 @@ int main(){
 		}
 		cout<<endl;
 	}
+	Sleep(10);
 	system("cls");
-}
 	}
-	
 	
 	return 0;
 }
