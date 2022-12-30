@@ -64,6 +64,7 @@ int main() {
     for(int i=1;i<=nub;i++){
     	cin>>nu[i][1]>>nu[i][2]>>nu[i][3];
     	jl[nu[i][1]][nu[i][2]][nu[i][3]][1]=1;
+    	cin>>jl[nu[i][1]][nu[i][2]][nu[i][3]][2]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][3]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][4];
 	}
     for(int i=1;i<=100;i++){
     	for(int j=1;j<=100;j++){
