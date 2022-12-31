@@ -28,15 +28,27 @@ int main() {
     dwMode |= 0x0004;
     if (!SetConsoleMode(hOut, dwMode))return GetLastError();
     int r,g,b;
-    freopen("1.txt","r",stdin);
+    system("mode con: cols=120 lines=40");
+	char zhiling[1000];
+	cout<<"Please enter in the file you want to open:";
+	string namer;
+	cin>>namer;
+	const char *nmae2=namer.c_str(); 
+	sprintf(zhiling,"copy .\\files\\%s.txt .\\1.txt",nmae2);
+	system(zhiling);
+	freopen("1.txt","r",stdin);
     cin>>nub;
     cout<<"fuck";
     for(int i=1;i<=nub;i++){
     	cin>>nu[i][1]>>nu[i][2]>>nu[i][3];
     	jl[nu[i][1]][nu[i][2]][nu[i][3]][1]=1;
     	cin>>jl[nu[i][1]][nu[i][2]][nu[i][3]][2]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][3]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][4];
-    	wprintf(L"\x1b[38;2;%d;%d;%dm&&",123,15,217);
+    	wprintf(L"\x1b[38;2;%d;%d;%dm&&",jl[nu[i][1]][nu[i][2]][nu[i][3]][2],jl[nu[i][1]][nu[i][2]][nu[i][3]][3],jl[nu[i][1]][nu[i][2]][nu[i][3]][4]);
+    	cout<<endl;
 	}
+	fclose(stdin); 
+	system("del 1.txt");
+	//Sleep(30000);
 	cout<<"fuck";
     for(int i=1;i<=100;i++){
     	for(int j=1;j<=100;j++){
