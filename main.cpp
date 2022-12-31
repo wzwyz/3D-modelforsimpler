@@ -15,7 +15,8 @@ int nub,nu[500005][7],jl[101][101][101][4],jk[101][101][101][4];
 int AX,BY,CZ;
 int kx[6]={-1,0,1,0,0,0},ky[6]={0,1,0,-1,0,0},kz[6]={0,0,0,0,1,-1};
 int main() {
-    typedef int (*H1)(int,int,int,int,int,int,int,int,int);
+    //system("color F0");
+	typedef int (*H1)(int,int,int,int,int,int,int,int,int);
 	typedef int (*H2)(int,int,int,int,int);
 	HMODULE hMod=LoadLibrary("fdll.dll");
 	H1 fvectorx=(H1)GetProcAddress(hMod,"_Z8fvectorxiiiiiiiii"),fvectory=(H1)GetProcAddress(hMod,"_Z8fvectoryiiiiiiiii"),fvectorz=(H1)GetProcAddress(hMod,"_Z8fvectorziiiiiiiii");
@@ -59,9 +60,9 @@ int main() {
 					RowVector3d T,L;
 					T<<fvectorx(aq,aw,ae,bq,bw,be,cq,cw,ce),fvectory(aq,aw,ae,bq,bw,be,cq,cw,ce),fvectorz(aq,aw,ae,bq,bw,be,cq,cw,ce);
 					L<<i,j,100-v;
-					double gl=T.dot(L);
+					double gl=T.dot(L)*5;
 					//cout<<gl<<endl;
-					gl=gl/10000*0.5+0.5;
+					gl=gl/10000*0.5+0.7;
 					jl[i][j][v][2]=(int)(jl[i][j][v][2]*gl);jl[i][j][v][3]=(int)(jl[i][j][v][3]*gl);jl[i][j][v][4]=(int)(jl[i][j][v][4]*gl);
 				}
 				else{
