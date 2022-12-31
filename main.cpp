@@ -8,54 +8,25 @@
 #include<time.h>
 #include <Eigen/Dense>
 #include <Eigen/Core>
-#define MAXN 120 
+#define MAXN 260
 using namespace std;
 using namespace Eigen;
 int nub,nu[500005][7],jl[101][101][101][4],jk[101][101][101][4];
 int AX,BY,CZ;
 int kx[6]={-1,0,1,0,0,0},ky[6]={0,1,0,-1,0,0},kz[6]={0,0,0,0,1,-1};
-void fvector(int a1,int b1,int c1,int a2,int b2,int c2,int a3,int b3,int c3){
-	int a, b, c, d, e, f;
-	a = a1 - a2;
-	b = b1 - b2;
-	c = c1 - c2;
-	d = a1 - a3;
-	e = b1 - b3;
-	f = c1 - c3;
-	int A, B, C;
-	A = b * f - c * e;
-	B = c * d - a * f;
-	C = a * e - b * d;
-	AX=A;BY=B;CZ=C;
-}
-int equasd(int c1,int c2,int c3,int sdf,int sdp){
-	double d[]={0,cos(2*3.14159*sdf/MAXN),sin(2*3.14159*sdf/MAXN),0,-sin(2*3.14159*sdf/MAXN),cos(2*3.14159*sdf/MAXN),0,0,0,1};
-	double b[]={0,1,0,0,0,cos(2*3.14159*sdp/MAXN),sin(2*3.14159*sdp/MAXN),0,-sin(2*3.14159*sdp/MAXN),cos(2*3.14159*sdp/MAXN)};
-	double u[]={0,c1,c2,c3};
-	double o[3];
-	o[1]=u[1]*d[1]+u[2]*d[2]+u[3]*d[3];
-    o[2]=u[1]*d[4]+u[2]*d[5]+u[3]*d[6];
-    o[3]=u[1]*d[7]+u[2]*d[8]+u[3]*d[9];
-    double e[3];
-	e[1]=o[1]*b[1]+o[2]*b[2]+o[3]*b[3];
-    e[2]=o[1]*b[4]+o[2]*b[5]+o[3]*b[6];
-    e[3]=o[1]*b[7]+o[2]*b[8]+o[3]*b[9];
-	jk[(int)e[1]][(int)e[2]][(int)e[3]][1]=1;
-	jk[(int)e[1]][(int)e[2]][(int)e[3]][2]=jl[c1][c2][c3][2];
-	jk[(int)e[1]][(int)e[2]][(int)e[3]][3]=jl[c1][c2][c3][3];
-	jk[(int)e[1]][(int)e[2]][(int)e[3]][4]=jl[c1][c2][c3][4];
-	//cout<<f[1]<<" "<<f[3]<<" "<<f[7]<<" "<<f[9]<<" "<<u[1]<<" "<<u[2]<<" ";
-	cout<<e[1]<<" "<<e[2]<<" "<<e[3]<<" "<<endl;
-}
 int main() {
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    typedef int (*H1)(int,int,int,int,int,int,int,int,int);
+	typedef int (*H2)(int,int,int,int,int);
+	HMODULE hMod=LoadLibrary("fdll.dll");
+	H1 fvectorx=(H1)GetProcAddress(hMod,"_Z8fvectorxiiiiiiiii"),fvectory=(H1)GetProcAddress(hMod,"_Z8fvectoryiiiiiiiii"),fvectorz=(H1)GetProcAddress(hMod,"_Z8fvectorziiiiiiiii");
+	H2 equasdx=(H2)GetProcAddress(hMod,"_Z7equasdxiiiii"),equasdy=(H2)GetProcAddress(hMod,"_Z7equasdyiiiii"),equasdz=(H2)GetProcAddress(hMod,"_Z7equasdziiiii");
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hOut == INVALID_HANDLE_VALUE)return GetLastError();
     DWORD dwMode = 0;
     if (!GetConsoleMode(hOut, &dwMode))return GetLastError();
     dwMode |= 0x0004;
     if (!SetConsoleMode(hOut, dwMode))return GetLastError();
     int r,g,b;
-    
     freopen("1.txt","r",stdin);
     cin>>nub;
     cout<<"fuck";
@@ -85,11 +56,11 @@ int main() {
 					int aq=qx.front();qx.pop();int bq=qy.front();qy.pop();int cq=qz.front();qz.pop();
 					int aw=qx.front();qx.pop();int bw=qy.front();qy.pop();int cw=qz.front();qz.pop();
 					int ae=qx.front();qx.pop();int be=qy.front();qy.pop();int ce=qz.front();qz.pop();
-					fvector(aq,aw,ae,bq,bw,be,cq,cw,ce);
 					RowVector3d T,L;
-					T<<AX,BY,CZ;
+					T<<fvectorx(aq,aw,ae,bq,bw,be,cq,cw,ce),fvectory(aq,aw,ae,bq,bw,be,cq,cw,ce),fvectorz(aq,aw,ae,bq,bw,be,cq,cw,ce);
 					L<<i,j,100-v;
 					double gl=T.dot(L);
+					//cout<<gl<<endl;
 					gl=gl/10000*0.5+0.5;
 					jl[i][j][v][2]=(int)(jl[i][j][v][2]*gl);jl[i][j][v][3]=(int)(jl[i][j][v][3]*gl);jl[i][j][v][4]=(int)(jl[i][j][v][4]*gl);
 				}
@@ -126,7 +97,11 @@ int main() {
 			for(int j=1;j<=100;j++){
 				for(int v=1;v<=100;v++){
 					if(jl[i][j][v][1]==1){
-						equasd(i,j,v,MAXN*p.x/1679,MAXN*p.y/1119);
+						int Ex=equasdx(i,j,v,MAXN*p.x/1679,MAXN*p.y/1119),Ey=equasdy(i,j,v,MAXN*p.x/1679,MAXN*p.y/1119),Ez=equasdz(i,j,v,MAXN*p.x/1679,MAXN*p.y/111);
+						jk[Ex][Ey][Ez][1]=1;
+						jk[Ex][Ey][Ez][2]=jl[i][j][v][2];
+						jk[Ex][Ey][Ez][3]=jl[i][j][v][3];
+						jk[Ex][Ey][Ez][4]=jl[i][j][v][4];
 					}
 				}
 				cout <<"\033c";
