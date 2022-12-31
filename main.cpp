@@ -88,28 +88,22 @@ int main() {
 		cout<<endl;
 	}
 	Sleep(30000);*/
-	//while(1){
+	while(1){
 		POINT p;
 		GetCursorPos(&p);
 		memset(jk,0,sizeof(jk));
 		cout <<"\033c";
-		for(int i=1;i<=100;i++){
-			for(int j=1;j<=100;j++){
-				for(int v=1;v<=100;v++){
-					if(jl[i][j][v][1]==1){
-						int Ex=equasdx(i,j,v,MAXN*p.x/1679,MAXN*p.y/1119),Ey=equasdy(i,j,v,MAXN*p.x/1679,MAXN*p.y/1119),Ez=equasdz(i,j,v,MAXN*p.x/1679,MAXN*p.y/111);
-						jk[Ex][Ey][Ez][1]=1;
-						jk[Ex][Ey][Ez][2]=jl[i][j][v][2];
-						jk[Ex][Ey][Ez][3]=jl[i][j][v][3];
-						jk[Ex][Ey][Ez][4]=jl[i][j][v][4];
-					}
-				}
-				cout <<"\033c";
-				for(int l=1;l<=i;l++)cout<<"¨€";
-				double s=i*100+j;
-				cout<<fixed<<setprecision(2)<<s/100;
-				cout<<"%";
-			}
+		for(int i=1;i<=nub;i++){
+			int Ex=equasdx(nu[i][1],nu[i][2],nu[i][3],MAXN*p.x/1679,MAXN*p.y/1119),Ey=equasdy(nu[i][1],nu[i][2],nu[i][3],MAXN*p.x/1679,MAXN*p.y/1119),Ez=equasdz(nu[i][1],nu[i][2],nu[i][3],MAXN*p.x/1679,MAXN*p.y/111);
+			jk[Ex][Ey][Ez][1]=1;
+			jk[Ex][Ey][Ez][2]=jl[nu[i][1]][nu[i][2]][nu[i][3]][2];
+			jk[Ex][Ey][Ez][3]=jl[nu[i][1]][nu[i][2]][nu[i][3]][3];
+			jk[Ex][Ey][Ez][4]=jl[nu[i][1]][nu[i][2]][nu[i][3]][4];
+			//cout <<"\033c";
+			//for(int l=1;l<=i;l++)cout<<"¨€";
+			//double s=i*100;
+			//cout<<fixed<<setprecision(2)<<s/nub;
+			//cout<<"%";
 		}
 		cout << "\033c";
 		cout<<"fuck2";
@@ -128,6 +122,6 @@ int main() {
 			}
 			cout<<endl;
 		}
-	//}
+	}
 	return 0; 
 }
