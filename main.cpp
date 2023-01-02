@@ -77,9 +77,6 @@ int main() {
 					gl=gl/10000*0.5+0.7;
 					jl[i][j][v][2]=(int)(jl[i][j][v][2]*gl);jl[i][j][v][3]=(int)(jl[i][j][v][3]*gl);jl[i][j][v][4]=(int)(jl[i][j][v][4]*gl);
 				}
-				else{
-					jl[i][j][v][2]=0;jl[i][j][v][3]=0;jl[i][j][v][4]=0;
-				}
 			}
 		}
 	}
