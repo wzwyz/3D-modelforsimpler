@@ -8,19 +8,22 @@ struct tyu{
 int jl[101][101][101],jk[100][100],maxr=1,minr=100;
 int main(){
 	char zhiling[10000];
-	system("title Txt reader");
-	cout<<"Please enter in the file you want to open:"<<endl;
-	string pathr,namer;
-	cin>>pathr>>namer;
+	system("title Ply reader");
+	freopen("C:\\Users\\wyz\\Documents\\ghfile.txt","r",stdin);
+	//cout<<"Please enter in the file you want to open:"<<endl;
+	string dir,pathr,namer;
+	cin>>dir>>pathr>>namer; 
+	fclose(stdin);
 	string usder=pathr+namer;
+	const char *nmae1=dir.c_str();
 	const char *nmae2=usder.c_str(); 
 	const char *nmae3=namer.c_str(); 
-	sprintf(zhiling,"copy %s.ply .\\midt.txt",nmae2);
+	sprintf(zhiling,"tar -xzvf %s.tar.gz -C C:\\Users\\wyz\\Documents\\",nmae2);
 	system(zhiling);
-	//system("md F:\\test");
-	//system("");
-	freopen("midt.txt","r",stdin);
-	freopen("midr.txt","w",stdout);
+	sprintf(zhiling,"copy %s.txt C:\\Users\\wyz\\Documents\\midt.txt",nmae2);
+	system(zhiling);
+	freopen("C:\\Users\\wyz\\Documents\\midt.txt","r",stdin);
+	freopen("C:\\Users\\wyz\\Documents\\midr.txt","w",stdout);
 	int nub;
 	cin>>nub;
 	for(int j=1;j<=nub;j++){
@@ -53,15 +56,16 @@ int main(){
 	}
 	fclose(stdin);
 	fclose(stdout);
-	sprintf(zhiling,"ren midr.txt %s.txt",nmae3);
+	sprintf(zhiling,"move C:\\Users\\wyz\\Documents\\midr.txt %s\\files\\%s.txt",nmae1,nmae3);
 	system(zhiling);
-	system("del midt.txt");
-	system("del *.ply");
+	system("del C:\\Users\\wyz\\Documents\\midt.txt");
+	//system("del .\\*.ply");
 	freopen("CON", "w", stdout);
 	cout<<"\033c";
 	cout<<"Here is the file called "<<nmae3<<endl;
 	//system("type .\\trf.txt");
-	system("move .\\*.txt .\\files");
+	cout<<nmae3;
+	
 	//dir /b | find ".ply" >trf.txt
 	return 0;
 }
