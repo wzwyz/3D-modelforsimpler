@@ -1,42 +1,59 @@
-#include<bits/stdc++.h> 
+#include<bits/stdc++.h>
+#include<ctime>
 #include<windows.h>
+#include<stdio.h>
+#include<conio.h>
+#include<iostream>
+#include<cstdio>
+#include<time.h>
+#include <Eigen/Dense>
+#include <Eigen/Core>
 #define MAXN 260
-using namespace std;
-template<typename T>	//T表示任何可以被cout输出的类型
-void ColorCout_256(T t, const int ForeColor = 7, const int BackColor = 0)
-{
-	//ForeColor和BackColor的取值区间为[0,255]
-	cout << "\033[" << "38;5;" << ForeColor << "m";
-	cout << "\033[" << "48;5;" << BackColor << "m";
-	cout << t << "\033[m";
-}
+using namespace std;	//T表示任何可以被cout输出的类型
 int main(){
-	ColorCout_256("+------+.      +------+       +------+       +------+      .+------+", 177, 0);cout<<endl;
-	ColorCout_256("|`.    | `.    |\\     |\\      |      |      /|     /|    .' |    .'|", 177, 0);cout<<endl;
-	ColorCout_256("|  `+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+'  |", 177, 0);cout<<endl;
-	ColorCout_256("|   |  |   |   | |    | |     |      |     | |    | |   |   |  |   |", 177, 0);cout<<endl;
-	ColorCout_256("+---+--+.  |   +-+----+ |     +------+     | +----+-+   |  .+--+---+", 177, 0);cout<<endl;
-	ColorCout_256(" `. |    `.|    \\|     \\|     |      |     |/     |/    |.'    | .'", 177, 0);cout<<endl;
-	ColorCout_256("   `+------+     +------+     +------+     +------+     +------+'", 177, 0);cout<<endl;
-	ColorCout_256("                             Simpler_3D", 30, 0);cout<<endl;
-	ColorCout_256("   .+------+     +------+     +------+     +------+     +------+.", 190, 0);cout<<endl;
-	ColorCout_256(" .' |    .'|    /|     /|     |      |     |\\     |\\    |`.    | `.", 190, 0);cout<<endl;
-	ColorCout_256("+---+--+'  |   +-+----+ |     +------+     | +----+-+   |  `+--+---+", 190, 0);cout<<endl;
-	ColorCout_256("|   |  |   |   | |    | |     |      |     | |    | |   |   |  |   |", 190, 0);cout<<endl;
-	ColorCout_256("|  ,+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+   |", 190, 0);cout<<endl;
-	ColorCout_256("|.'    | .'    |/     |/      |      |      \\|     \\|    `. |   `. |", 190, 0);cout<<endl;
-	ColorCout_256("+------+'      +------+       +------+       +------+      `+------+", 190, 0);cout<<endl;
-	cout<<"What do you want to do?"<<endl;
-	cout<<"you can tyre in path and name of ";
-	ColorCout_256("tar.gz(Standfor origine type);ply(Standfor type);txt(Personal type)",214,0);
-	cout<<"to launch your models in the dock"<<endl;
-	cout<<"or you can just luanch the done ones (type in \"launch\")";
+	//_______________________________________________________________ 
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE)return GetLastError();
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(hOut, &dwMode))return GetLastError();
+    dwMode |= 0x0004;
+    if (!SetConsoleMode(hOut, dwMode))return GetLastError();
+    int r,g,b;
+    //_______________________________________________________________ 
+	while(1){
+	wprintf(L"\x1b[38;2;%d;%d;%dm+------+.      +------+       +------+       +------+      .+------+", 255, 255,18);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm|`.    | `.    |\\     |\\      |      |      /|     /|    .' |    .'|", 255, 255,18);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm|  `+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+'  |", 255, 255,18);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm|   |  |   |   | |    | |     |      |     | |    | |   |   |  |   |", 255, 255,18);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm+---+--+.  |   +-+----+ |     +------+     | +----+-+   |  .+--+---+", 255, 255,18);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm `. |    `.|    \\|     \\|     |      |     |/     |/    |.'    | .'", 255, 255,18);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm   `+------+     +------+     +------+     +------+     +------+'", 255, 255,18);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm                             Simpler_3D",106,90,205);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm   .+------+     +------+     +------+     +------+     +------+.",  0,250,170);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm .' |    .'|    /|     /|     |      |     |\\     |\\    |`.    | `.",  0,250,170);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm+---+--+'  |   +-+----+ |     +------+     | +----+-+   |  `+--+---+",  0,250,170);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm|   |  |   |   | |    | |     |      |     | |    | |   |   |  |   |",  0,250,170);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm|  ,+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+   |",  0,250,170);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm|.'    | .'    |/     |/      |      |      \\|     \\|    `. |   `. |", 0,250,170);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dm+------+'      +------+       +------+       +------+      `+------+", 0,250,170);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dmWhat do you want to do?",255,255,255);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dmyou can type in ",255,255,255);
+	wprintf(L"\x1b[38;2;%d;%d;%dmadd ",30,255,254);
+	wprintf(L"\x1b[38;2;%d;%d;%dmto launch your models in the dock",255,255,255);cout<<endl;
+	wprintf(L"\x1b[38;2;%d;%d;%dmor you can type in",255,255,255);
+	wprintf(L"\x1b[38;2;%d;%d;%dm launch ",30,255,254);
+	wprintf(L"\x1b[38;2;%d;%d;%dmto luanch the done ones",255,255,255);
+	cout<<endl;wprintf(L"\x1b[38;2;%d;%d;%dm",30,255,254);
 	string ans;
 	cin>>ans;
-	if(ans=="tar.gz")system("tar.gzreader.exe");
-	else if(ans=="ply")system("plyreader.exe");
-	else if(ans=="txt")system("txtreader.exe");
-	else if(ans=="launch")system("Simpler3Dviewer.exe");
-	
+	if(ans=="add"){
+		system("ConsoleApplication1");
+		system("yu.exe");
+		system("predone.exe");
+		system("pause");
+		cout<<"\033c";
+	}
+	else if(ans=="launch")system("main.exe");
+}
 	return 0;
 }
