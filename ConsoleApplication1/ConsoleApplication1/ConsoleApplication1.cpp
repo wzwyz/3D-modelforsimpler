@@ -66,13 +66,13 @@ char* chooseFiles() {
     ofn.lpstrFile[0] = _T('\0');
 
     // 设置过滤
-    ofn.lpstrFilter = _T("All\0*.*\0.mp4\0*.mp4\0.avi\0*.avi\0.mkv\0*.mkv\0.rmvb\0*.rmvb\0.f4v\0*.f4v\0.flv\0*.flv\0.m4v\0*.m4v\0.mpg\0*.mpg\0\0");
+    ofn.lpstrFilter = _T(".ply\0*.ply\0.txt\0*.txt\0\0");
 
     // 过滤器索引
     ofn.nFilterIndex = 1;
 
     // 窗口标题
-    ofn.lpstrTitle = _T("请选择视频");
+    ofn.lpstrTitle = _T("请选择文件");
 
     // 文件必须存在、允许多选、隐藏只读选项、对话框使用资源管理器风格的用户界面
     // 官方文档：https://docs.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-openfilenamea
