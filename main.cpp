@@ -40,6 +40,8 @@ int nub,nu[500005][7],jl[101][101][101][4],jk[101][101][101][4];
 int AX,BY,CZ;
 int kx[6]={-1,0,1,0,0,0},ky[6]={0,1,0,-1,0,0},kz[6]={0,0,0,0,1,-1};
 int main() {
+	ifstream infile;
+	ofstream outfile; 
 	//_____________________________________________________fdll调用 
 	typedef int (*H1)(int,int,int,int,int,int,int,int,int);
 	typedef int (*H2)(int,int,int,int,int);
@@ -63,20 +65,18 @@ int main() {
     SetConsoleMode( hInput, mode|ENABLE_MOUSE_INPUT );
     INPUT_RECORD record;
     DWORD n;
-    //_______________________________________________________________
-    
-    //system("mode con: cols=120 lines=40");
+    //_______________________________________________________________选择 
 	char zhiling[1000];
 	cout<<"Please Choose the file you want to open:"<<endl;
 	string namer;
 	const char *to_search=".\\files\\*.txt";
-	long handlet;                                                //用于查找的句柄
-    struct _finddata_t fileinfo;                          //文件信息的结构体
+	long handlet;                                                //查找句柄
+    struct _finddata_t fileinfo;                          //文件信息
     handlet=_findfirst(to_search,&fileinfo);         //第一次查找
     if(-1==handlet)return -1;
     printf("%s\n",fileinfo.name); 
 	df[1].gh=fileinfo.name;
-	int num=2;                       //打印出找到的文件的文件名
+	int num=2;                      
     while(!_findnext(handlet,&fileinfo)){printf("%s\n",fileinfo.name);df[num].gh=fileinfo.name;num++;}
     _findclose(handlet);   
 	for( COORD pos={}; ReadConsoleInput(hInput,&record,1,&n) && n==1; ){
@@ -102,19 +102,24 @@ int main() {
 		}
         
     }
+    //_______________________________________________________________加速输入输出 
+    /*ios::sync_with_studio(false);
+    cin.tie(0);cout.tie(0);*/
+    //_______________________________________________________________运算 
 	const char *nmae2=namer.c_str(); 
 	sprintf(zhiling,"copy .\\files\\%s .\\1.txt",nmae2);
 	system(zhiling);
-	freopen("1.txt","r",stdin);
-    cin>>nub;
+	infile.open("1.txt");
+	//freopen("1.txt","r",stdin);
+    infile>>nub;
     for(int i=1;i<=nub;i++){
-    	cin>>nu[i][1]>>nu[i][2]>>nu[i][3];
+    	infile>>nu[i][1]>>nu[i][2]>>nu[i][3];
     	jl[nu[i][1]][nu[i][2]][nu[i][3]][1]=1;
-    	cin>>jl[nu[i][1]][nu[i][2]][nu[i][3]][2]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][3]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][4];
+    	infile>>jl[nu[i][1]][nu[i][2]][nu[i][3]][2]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][3]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][4];
     	wprintf(L"\x1b[38;2;%d;%d;%dm&&",jl[nu[i][1]][nu[i][2]][nu[i][3]][2],jl[nu[i][1]][nu[i][2]][nu[i][3]][3],jl[nu[i][1]][nu[i][2]][nu[i][3]][4]);
     	cout<<endl;
 	}
-	fclose(stdin); 
+	infile.close(); 
 	system("del 1.txt");
     for(int i=1;i<=100;i++){
     	for(int j=1;j<=100;j++){
@@ -127,7 +132,7 @@ int main() {
     					else {
     						qx.push(i+kx[z]);
     						qy.push(j+ky[z]);
-    						qz.push(v+kz[z]);
+    					qz.push(v+kz[z]);
 						}
 					}
 				}
@@ -145,22 +150,24 @@ int main() {
 			}
 		}
 	}
-	cout << "\033c";
-	cout<<"fuck1";
+	HANDLE hStdoutwr;hStdoutwr=GetStdHandle(STD_OUTPUT_HANDLE);clearp(hStdoutwr);
+	//_______________________________________________________________输出 
+	COORD tpos={0,0};
+	COORD cpos={0,0},spos={0,0};
 	while(1){
-		POINT p;
-		GetCursorPos(&p);
 		memset(jk,0,sizeof(jk));
-		cout <<"\033c";
+		HANDLE outputHandleu = GetStdHandle(STD_OUTPUT_HANDLE);
+		CONSOLE_SCREEN_BUFFER_INFO inofo;
+		GetConsoleScreenBufferInfo(outputHandleu, &inofo);
 		for(int i=1;i<=nub;i++){
-			int Ex=equasdx(nu[i][1],nu[i][2],nu[i][3],MAXN*p.x/1679,MAXN*p.y/1119),Ey=equasdy(nu[i][1],nu[i][2],nu[i][3],MAXN*p.x/1679,MAXN*p.y/1119),Ez=equasdz(nu[i][1],nu[i][2],nu[i][3],MAXN*p.x/1679,MAXN*p.y/111);
+			int Ex=equasdx(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/inofo.dwSize.X,MAXN*(tpos.Y+spos.Y-cpos.Y)/120)+50,Ey=equasdy(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/inofo.dwSize.X,MAXN*(tpos.Y+spos.Y-cpos.Y)/120)+50,Ez=50-equasdz(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/inofo.dwSize.X,MAXN*(tpos.Y+spos.Y-cpos.Y)/120);
 			jk[Ex][Ey][Ez][1]=1;
 			jk[Ex][Ey][Ez][2]=jl[nu[i][1]][nu[i][2]][nu[i][3]][2];
 			jk[Ex][Ey][Ez][3]=jl[nu[i][1]][nu[i][2]][nu[i][3]][3];
 			jk[Ex][Ey][Ez][4]=jl[nu[i][1]][nu[i][2]][nu[i][3]][4];
 		}
-		cout << "\033c";
-		cout<<"fuck2";
+		
+		HANDLE hStdoutwl;hStdoutwl=GetStdHandle(STD_OUTPUT_HANDLE);clearp(hStdoutwl);
 		for(int i=1;i<=100;i++){
 			for(int j=1;j<=100;j++){
 				int y=0;
@@ -175,6 +182,26 @@ int main() {
 			}
 			cout<<endl;
 		}
+		HANDLE hInputd = GetStdHandle( STD_INPUT_HANDLE );
+    	DWORD modee;
+    	GetConsoleMode( hInputd, &modee );
+    	modee &= ~ENABLE_QUICK_EDIT_MODE;
+    	modee |= ENABLE_MOUSE_INPUT;
+    	SetConsoleMode( hInputd, modee|ENABLE_MOUSE_INPUT );
+    	INPUT_RECORD records;
+    	DWORD nl;
+    	bool k=1;
+        for( COORD pos={}; ReadConsoleInput(hInputd,&records,1,&nl) && nl==1; )
+        {
+		    if(records.EventType!=MOUSE_EVENT)continue;
+		    COORD pos_new = records.Event.MouseEvent.dwMousePosition;
+            pos = pos_new;
+            if(KEY_DOWN(VK_LBUTTON)&&k==1){cpos=pos;k=0;}
+		    else if(!KEY_DOWN(VK_LBUTTON)&&k==0){
+		    	spos=pos;break;
+		    }
+        }
+		tpos=spos;
 	}
 	return 0; 
 }
