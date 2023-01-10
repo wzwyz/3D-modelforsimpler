@@ -33,7 +33,7 @@ int main(){
 			for(int j=1;j<=nub;j++){
 				double xx,yy,zz;
 				cin>>xx>>yy>>zz;
-				xx=xx*250+50;yy=yy*250+50;zz=zz*250+50;
+				xx=xx*100+50;yy=yy*100+50;zz=zz*100+50;
 				jl[(int)xx][(int)yy][(int)zz]=1;
 			} 
 			int sum=0;
@@ -86,7 +86,7 @@ int main(){
 			for(int j=1;j<=nub;j++){
 				double xx,yy,zz;
 				cin>>xx>>yy>>zz;
-				xx=xx*250+50;yy=yy*250+50;zz=zz*250+50;
+				xx=xx*100+50;yy=yy*100+50;zz=zz*100+50;
 				jl[(int)xx][(int)yy][(int)zz]=1;
 			} 
 			int sum=0;
