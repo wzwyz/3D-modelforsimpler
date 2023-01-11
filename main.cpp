@@ -13,6 +13,7 @@
 #define MAXN 260
 using namespace std;
 using namespace Eigen;
+//_____________________________________________________fdll调用
 void clearp(HANDLE hConsole)
 {
    CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -33,10 +34,21 @@ void clearp(HANDLE hConsole)
    csbi.dwCursorPosition.Y=0;
    SetConsoleCursorPosition(hConsole,csbi.dwCursorPosition);
 }
+//_____________________________________________________文件名 
 struct tyu{
 	string gh;
 }df[10000];
+//_____________________________________________________判断直线 
 int nub,nu[500005][7],jl[101][101][101][4],jk[101][101][101][4];
+bool noobstacle(int x1,int y1,int z1,int x2,int y2,int z2){
+	int cx=x1,cy=y1,cz=z1; 
+	int Le=ceil(sqrt(pow(abs(x1-x2),2)+pow(abs(y1-y2),2)+pow(abs(z1-z2),2)));
+	for(int i=1;i<=Le;i++){
+		if(jk[(int)(x1*i/Le+x2*(Le-i)/Le)][(int)(x1*i/Le+x2*(Le-i)/Le)][(int)(x1*i/Le+x2*(Le-i)/Le)][1]==1)return false;
+		if((int)(x1*i/Le+x2*(Le-i)/Le)>=100||(int)(x1*i/Le+x2*(Le-i)/Le)<=0||(int)(y1*i/Le+y2*(Le-i)/Le)>=100||(int)(y1*i/Le+y2*(Le-i)/Le)<=0||(int)(z1*i/Le+z2*(Le-i)/Le)>=100||(int)(z1*i/Le+z2*(Le-i)/Le)<=0)return true;
+	}
+	return true;
+} 
 int AX,BY,CZ;
 int kx[6]={-1,0,1,0,0,0},ky[6]={0,1,0,-1,0,0},kz[6]={0,0,0,0,1,-1};
 int main() {
@@ -116,7 +128,7 @@ int main() {
     	infile>>nu[i][1]>>nu[i][2]>>nu[i][3];
     	jl[nu[i][1]][nu[i][2]][nu[i][3]][1]=1;
     	infile>>jl[nu[i][1]][nu[i][2]][nu[i][3]][2]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][3]>>jl[nu[i][1]][nu[i][2]][nu[i][3]][4];
-    	wprintf(L"\x1b[38;2;%d;%d;%dm&&",jl[nu[i][1]][nu[i][2]][nu[i][3]][2],jl[nu[i][1]][nu[i][2]][nu[i][3]][3],jl[nu[i][1]][nu[i][2]][nu[i][3]][4]);
+    	//wprintf(L"\x1b[38;2;%d;%d;%dm&&",jl[nu[i][1]][nu[i][2]][nu[i][3]][2],jl[nu[i][1]][nu[i][2]][nu[i][3]][3],jl[nu[i][1]][nu[i][2]][nu[i][3]][4]);
     	cout<<endl;
 	}
 	infile.close(); 
@@ -132,7 +144,7 @@ int main() {
     					else {
     						qx.push(i+kx[z]);
     						qy.push(j+ky[z]);
-    					qz.push(v+kz[z]);
+    						qz.push(v+kz[z]);
 						}
 					}
 				}
@@ -145,6 +157,7 @@ int main() {
 					L<<i,j,100-v;
 					double gl=T.dot(L)*5;
 					gl=gl/10000*0.5+0.7;
+					if(!noobstacle(i,j,v,fvectorx(aq,aw,ae,bq,bw,be,cq,cw,ce),fvectory(aq,aw,ae,bq,bw,be,cq,cw,ce),fvectorz(aq,aw,ae,bq,bw,be,cq,cw,ce)))gl*=0.5;
 					jl[i][j][v][2]=(int)(jl[i][j][v][2]*gl);jl[i][j][v][3]=(int)(jl[i][j][v][3]*gl);jl[i][j][v][4]=(int)(jl[i][j][v][4]*gl);
 				}
 			}
