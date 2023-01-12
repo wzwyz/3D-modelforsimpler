@@ -9,6 +9,7 @@
 #include<time.h>
 #include <Eigen/Dense>
 #include <Eigen/Core>
+#include <graphics.h>
 #define KEY_DOWN(VK_NONAME) ((GetAsyncKeyState(VK_NONAME) & 0x8000) ? 1:0)
 #define MAXN 260
 using namespace std;
@@ -165,28 +166,39 @@ int main() {
 	}
 	HANDLE hStdoutwr;hStdoutwr=GetStdHandle(STD_OUTPUT_HANDLE);clearp(hStdoutwr);
 	//_______________________________________________________________输出 
-	COORD tpos={0,0};
-	COORD cpos={0,0},spos={0,0};
+	/*COORD tpos={0,0};
+	COORD cpos={0,0},spos={0,0};*/
+	struct tyu{
+		int X,Y;
+	}cpos,spos,tpos;
+	//ShowWindow(GetConsoleWindow(), SW_MINIMIZE);
+	initgraph(200,200, SHOWCONSOLE);
+	HWND hndl = GetHWnd();SetWindowText(hndl,"model view");
+    cleardevice();
+    setlinestyle(PS_NULL);
 	while(1){
 		memset(jk,0,sizeof(jk));
 		HANDLE outputHandleu = GetStdHandle(STD_OUTPUT_HANDLE);
 		CONSOLE_SCREEN_BUFFER_INFO inofo;
 		GetConsoleScreenBufferInfo(outputHandleu, &inofo);
 		for(int i=1;i<=nub;i++){
-			int Ex=equasdx(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/inofo.dwSize.X,MAXN*(tpos.Y+spos.Y-cpos.Y)/120)+50,Ey=equasdy(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/inofo.dwSize.X,MAXN*(tpos.Y+spos.Y-cpos.Y)/120)+50,Ez=50-equasdz(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/inofo.dwSize.X,MAXN*(tpos.Y+spos.Y-cpos.Y)/120);
+			int Ex=equasdx(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/1000,MAXN*(tpos.Y+spos.Y-cpos.Y)/1000)+50,Ey=equasdy(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/1000,MAXN*(tpos.Y+spos.Y-cpos.Y)/1000)+50,Ez=50-equasdz(nu[i][1]-50,nu[i][2]-50,50-nu[i][3],MAXN*(tpos.X+spos.X-cpos.X)/1000,MAXN*(tpos.Y+spos.Y-cpos.Y)/100);
 			jk[Ex][Ey][Ez][1]=1;
 			jk[Ex][Ey][Ez][2]=jl[nu[i][1]][nu[i][2]][nu[i][3]][2];
 			jk[Ex][Ey][Ez][3]=jl[nu[i][1]][nu[i][2]][nu[i][3]][3];
 			jk[Ex][Ey][Ez][4]=jl[nu[i][1]][nu[i][2]][nu[i][3]][4];
 		}
-		
-		HANDLE hStdoutwl;hStdoutwl=GetStdHandle(STD_OUTPUT_HANDLE);clearp(hStdoutwl);
+		cleardevice();
+		//HANDLE hStdoutwl;hStdoutwl=GetStdHandle(STD_OUTPUT_HANDLE);clearp(hStdoutwl);
 		for(int i=1;i<=100;i++){
 			for(int j=1;j<=100;j++){
 				int y=0;
 				for(int v=1;v<=100;v++){
 					if(jk[i][j][v][1]==1){
-						wprintf(L"\x1b[38;2;%d;%d;%dm&&",jk[i][j][v][2],jk[i][j][v][3],jk[i][j][v][4]);
+						setfillcolor(RGB(jk[i][j][v][2],jk[i][j][v][3],jk[i][j][v][4]));
+    					setlinecolor(RGB(jk[i][j][v][2],jk[i][j][v][3],jk[i][j][v][4]));
+    					solidrectangle(i*2,j*2,(i+1)*2,(j+1)*2);
+						//wprintf(L"\x1b[38;2;%d;%d;%dm&&",jk[i][j][v][2],jk[i][j][v][3],jk[i][j][v][4]);
 						y=1;
 						break;
 					}
@@ -195,7 +207,24 @@ int main() {
 			}
 			cout<<endl;
 		}
-		HANDLE hInputd = GetStdHandle( STD_INPUT_HANDLE );
+        MOUSEMSG m;        // 定义鼠标消息
+	    bool b=false;
+        while (true){
+            ExMessage m;//定义一个消息变量
+            m = getmessage(EM_MOUSE);//获取鼠标消息
+		    switch (m.message){
+		        case WM_RBUTTONDOWN:
+		        	//SetWindowPosGetForegroundWindow(),HWND_TOP,i,cy/2,cx/10,cy/10,0)
+					//ShowWindow(GetForegroundWindow(), SW_MAXIMIZE);
+					return 0;
+				case WM_LBUTTONDOWN:
+		        	cpos.X=m.x;cpos.Y=m.y; break;
+                case WM_LBUTTONUP:
+                    spos.X=m.x;spos.Y=m.y;b=true;break;
+        	}
+        if(b==true)break;
+		}
+		/*HANDLE hInputd = GetStdHandle( STD_INPUT_HANDLE );
     	DWORD modee;
     	GetConsoleMode( hInputd, &modee );
     	modee &= ~ENABLE_QUICK_EDIT_MODE;
@@ -214,7 +243,9 @@ int main() {
 		    	spos=pos;break;
 		    }
         }
-		tpos=spos;
+		tpos=spos;*/
+		tpos.X=spos.X;tpos.Y=spos.Y;
 	}
-	return 0; 
+	closegraph();
+    return 0;
 }
