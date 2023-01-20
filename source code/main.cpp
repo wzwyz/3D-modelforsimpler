@@ -2,6 +2,8 @@
 #include <vector>
 #include <random>
 #include <stdlib.h>
+#include<conio.h>
+#include <graphics.h>
 #include "glm/glm.hpp"// æ•°å­¦åº“æ”¯æŒ
 #include "svpng.inc"    // pngè¾“å‡º ref: https://github.com/miloyip/svpng
 //#include <omp.h>    // openmpå¤šçº¿ç¨‹åŠ é€Ÿ
@@ -12,7 +14,7 @@ using namespace std;
 // --------------------- end of include --------------------- //
 
 // é‡‡æ ·æ¬¡æ•°
-const int SAMPLE = 64;
+const int SAMPLE = 4;
 
 // æ¯æ¬¡é‡‡æ ·çš„äº®åº¦
 const double BRIGHTNESS = (2.0f * 3.1415926f) * (1.0f / double(SAMPLE));
@@ -23,17 +25,18 @@ const int HEIGHT = 256;
 
 // ç›¸æœºå‚æ•°
 const double SCREEN_Z = 1.1;        // è§†å¹³é¢ z åæ ‡
-const vec3 EYE = vec3(0, 0, 4.0);   // ç›¸æœºä½ç½®
+vec3 EYE = vec3(0, 0, 4.0);   // ç›¸æœºä½ç½®
 
 // é¢œè‰²
-const vec3 RED(1, 0.5, 0.5);
+/*const vec3 RED(1, 0.5, 0.5);
 const vec3 GREEN(0.5, 1, 0.5);
 const vec3 BLUE(0.5, 0.5, 1);
 const vec3 YELLOW(1.0, 1.0, 0.1);
 const vec3 CYAN(0.1, 1.0, 1.0);
 const vec3 MAGENTA(1.0, 0.1, 1.0);
 const vec3 GRAY(0.5, 0.5, 0.5);
-const vec3 WHITE(1, 1, 1);
+const vec3 BLACK(0,0,0); 
+const vec3 WHITE(1, 1, 1);*/
 
 // --------------- end of global variable definition --------------- //
 
@@ -252,7 +255,7 @@ vec3 randomDirection(vec3 n)
     // æ³•å‘çƒ
     return normalize(randomVec3() + n);
 }
-
+ 
 // è·¯å¾„è¿½è¸ª
 vec3 pathTracing(vector<Shape*>& shapes, Ray ray, int depth)
 {
@@ -306,7 +309,7 @@ vec3 pathTracing(vector<Shape*>& shapes, Ray ray, int depth)
 int main()
 {
     vector<Shape*> shapes;  // å‡ ä½•ç‰©ä½“çš„é›†åˆ
-
+/* 
     Sphere s1 = Sphere(vec3(-0.65, -0.7, 0.0), 0.3, GREEN);
     Sphere s2 = Sphere(vec3(0.0, -0.3, 0.0), 0.4, WHITE);
     Sphere s3 = Sphere(vec3(0.65, 0.1, 0.0), 0.3, BLUE);
@@ -323,19 +326,19 @@ int main()
     shapes.push_back(&s1);
     shapes.push_back(&s2);
     shapes.push_back(&s3);
-
-    shapes.push_back(new Triangle(vec3(-0.15, 0.4, -0.6), vec3(-0.15, -0.95, -0.6), vec3(0.15, 0.4, -0.6), YELLOW));
-    shapes.push_back(new Triangle(vec3(0.15, 0.4, -0.6), vec3(-0.15, -0.95, -0.6), vec3(0.15, -0.95, -0.6), YELLOW));
-
-    Triangle tt = Triangle(vec3(-0.2, -0.2, -0.95), vec3(0.2, -0.2, -0.95), vec3(-0.0, -0.9, 0.4), YELLOW);
-    //tt.material.specularRate = 0.1;
-    //tt.material.refractRate = 0.85;
-    //tt.material.refractRoughness = 0.3;
-    //shapes.push_back(&tt);
+*/ 
+    /*shapes.push_back(new Triangle(vec3(-0.15, 0.4, -0.6), vec3(-0.15, -0.95, -0.6), vec3(0.15, 0.4, -0.6), vec3(1.0, 1.0, 0.1)));
+    shapes.push_back(new Triangle(vec3(0.35, 0.7, -0.15), vec3(-0.75, -0.95, -0.9), vec3(0.35, -0.12, -0.3), vec3(1.0, 0.1, 0.1)));
+*/
+    /*Triangle tt = Triangle(vec3(-0.2, -0.2, -0.95), vec3(0.2, -0.2, -0.95), vec3(-0.0, -0.9, 0.4), vec3(1.0, 1.0, 0.1));
+    tt.material.specularRate = 0.1;
+    tt.material.refractRate = 0.85;
+    tt.material.refractRoughness = 0.3;
+    shapes.push_back(&tt);*/
     
     // å‘å…‰ç‰©
-    Triangle l1 = Triangle(vec3(0.4, 0.99, 0.4), vec3(-0.4, 0.99, -0.4), vec3(-0.4, 0.99, 0.4), WHITE);
-    Triangle l2 = Triangle(vec3(0.4, 0.99, 0.4), vec3(0.4, 0.99, -0.4), vec3(-0.4, 0.99, -0.4), WHITE);
+    Triangle l1 = Triangle(vec3(0.4, 0.99, 0.4), vec3(-0.4, 0.99, -0.4), vec3(-0.4, 0.99, 0.4), vec3(1.0, 1.0, 1.0));
+    Triangle l2 = Triangle(vec3(0.4, 0.99, 0.4), vec3(0.4, 0.99, -0.4), vec3(-0.4, 0.99, -0.4), vec3(1.0, 1.0, 1.0));
     l1.material.isEmissive = true;
     l2.material.isEmissive = true;
     shapes.push_back(&l1);
@@ -343,22 +346,32 @@ int main()
 
     // èƒŒæ™¯ç›’å­
     // bottom
-    shapes.push_back(new Triangle(vec3(1, -1, 1), vec3(-1, -1, -1), vec3(-1, -1, 1), WHITE));
-    shapes.push_back(new Triangle(vec3(1, -1, 1), vec3(1, -1, -1), vec3(-1, -1, -1), WHITE));
+    shapes.push_back(new Triangle(vec3(1, -1, 1), vec3(-1, -1, -1), vec3(-1, -1, 1), vec3(1,1,1)));
+    shapes.push_back(new Triangle(vec3(1, -1, 1), vec3(1, -1, -1), vec3(-1, -1, -1), vec3(1,1,1)));
     // top
-    shapes.push_back(new Triangle(vec3(1, 1, 1), vec3(-1, 1, 1), vec3(-1, 1, -1), WHITE));
-    shapes.push_back(new Triangle(vec3(1, 1, 1), vec3(-1, 1, -1), vec3(1, 1, -1), WHITE));
+    shapes.push_back(new Triangle(vec3(1, 1, 1), vec3(-1, 1, 1), vec3(-1, 1, -1), vec3(0.6,0.1,0.7)));
+    shapes.push_back(new Triangle(vec3(1, 1, 1), vec3(-1, 1, -1), vec3(1, 1, -1), vec3(0.6,0.1,0.7)));
     // back
-    shapes.push_back(new Triangle(vec3(1, -1, -1), vec3(-1, 1, -1), vec3(-1, -1, -1), CYAN));
-    shapes.push_back(new Triangle(vec3(1, -1, -1), vec3(1, 1, -1), vec3(-1, 1, -1), CYAN));
+    shapes.push_back(new Triangle(vec3(1, -1, -1), vec3(-1, 1, -1), vec3(-1, -1, -1), vec3(0.2,0.2,0.9)));
+    shapes.push_back(new Triangle(vec3(1, -1, -1), vec3(1, 1, -1), vec3(-1, 1, -1), vec3(0.2,0.2,0.9)));
     // left
-    shapes.push_back(new Triangle(vec3(-1, -1, -1), vec3(-1, 1, 1), vec3(-1, -1, 1), BLUE));
-    shapes.push_back(new Triangle(vec3(-1, -1, -1), vec3(-1, 1, -1), vec3(-1, 1, 1), BLUE));
+    shapes.push_back(new Triangle(vec3(-1, -1, -1), vec3(-1, 1, 1), vec3(-1, -1, 1), vec3(0.8,0.2,0.7)));
+    shapes.push_back(new Triangle(vec3(-1, -1, -1), vec3(-1, 1, -1), vec3(-1, 1, 1), vec3(0.8,0.2,0.7)));
     // right
-    shapes.push_back(new Triangle(vec3(1, 1, 1), vec3(1, -1, -1), vec3(1, -1, 1), RED));
-    shapes.push_back(new Triangle(vec3(1, -1, -1), vec3(1, 1, 1), vec3(1, 1, -1), RED));
-    
-    
+    shapes.push_back(new Triangle(vec3(1, 1, 1), vec3(1, -1, -1), vec3(1, -1, 1), vec3(0.7,1.0,0.2)));
+    shapes.push_back(new Triangle(vec3(1, -1, -1), vec3(1, 1, 1), vec3(1, 1, -1), vec3(0.7,1.0,0.2)));
+    //______________________________________________________________________________________________________background
+    int num;
+	freopen("donat.txt","r",stdin);
+	cin>>num;
+	for(int i=1;i<=num;i++){
+		double ax,ay,az,bx,by,bz,cx,cy,cz,r,g,b;
+		cin>>ax>>ay>>az>>bx>>by>>bz>>cx>>cy>>cz>>r>>g>>b;
+		ax=ax/50-1;ay=ay/50-1;az=az/50-1;bx=bx/50-1;by=by/50-1;bz=bz/50-1;cx=cx/50-1;cy=cy/50-1;cz=cz/50-1;r/=255;g/=255;b/=255;
+		shapes.push_back(new Triangle(vec3(ax,az,ay), vec3(bx,bz,by), vec3(cx,cz,cy), vec3(r,g,b)));
+		
+	}
+	cout<<"stsrt";
     double* image = new double[WIDTH * HEIGHT * 3];
     memset(image, 0.0, sizeof(double) * WIDTH * HEIGHT * 3);
 
@@ -438,6 +451,12 @@ int main()
     }
     
     imshow(image);
-
+    system("copy .\\image.png .\\imag.png");
+	initgraph(256, 256);//´´½¨Ò»¸ö´°¿Ú
+	IMAGE background;//¶¨ÒåÒ»¸öÍ¼Æ¬Ãû.
+	loadimage(&background,"imag.png",256,256,1);//´ÓÍ¼Æ¬ÎÄ¼ş»ñÈ¡Í¼Ïñ
+	putimage(0, 0, &background);//»æÖÆÍ¼Ïñµ½ÆÁÄ»£¬Í¼Æ¬×óÉÏ½Ç×ø±êÎª(0,0)
+	_getch();//·ÀÖ¹³ÌĞò¹Ø±Õ
+	closegraph();//¹Ø±Õ´°¿Ú
     return 0;
 }
